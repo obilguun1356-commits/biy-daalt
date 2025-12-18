@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Чоно ба Хонь</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #b2ffff 40%, #36e232 40%) no-repeat;
+            background-attachment: fixed;
+            
+            cursor: url('https://img.icons8.com/ios-filled/32/000000/wolf.png'), auto;
+        }
+
+        .sun {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            width: 70px;
+            height: 70px;
+            background: #ffdb1a;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #ffae00;
+        }
+
+        .sheep {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease-out;
+            cursor: url('https://img.icons8.com/ios-filled/32/000000/wolf-paw.png'), pointer;
+            z-index: 10;
+        }
+
+        .sheep::before {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 5px;
+            width: 25px;
+            height: 25px;
+            background-color: #333;
+            border-radius: 50%;
+        }
+
+        .instruction {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            color: #333;
+            pointer-events: none;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div class="sun"></div>
+    <div class="instruction"> IF YOU CAN CATCH ME!</div>
+
+    <script>
+        for (let i = 0; i < 15; i++) {
+            let sheep = document.createElement('div');
+            sheep.className = 'sheep';
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = (window.innerHeight * 0.45) + Math.random() * (window.innerHeight * 0.4);
+            sheep.style.left = x + 'px';
+            sheep.style.top = y + 'px';
+            document.body.appendChild(sheep);
+
+            document.addEventListener('mousemove', (e) => {
+                let dx = x - e.clientX;
+                let dy = y - e.clientY;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < 120) {
+                    let angle = Math.atan2(dy, dx);
+                    x += Math.cos(angle) * 130;
+                    y += Math.sin(angle) * 130;
+
+                    if (dx > 0) sheep.style.transform = "scaleX(1)";
+                    else sheep.style.transform = "scaleX(-1)";
+
+                    if (x < 0) x = 50;
+                    if (x > window.innerWidth - 80) x = window.innerWidth - 100;
+                    if (y < window.innerHeight * 0.42) y = window.innerHeight * 0.45;
+                    if (y > window.innerHeight - 60) y = window.innerHeight - 100;
+
+                    sheep.style.left = x + 'px';
+                    sheep.style.top = y + 'px';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
