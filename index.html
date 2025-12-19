@@ -4,69 +4,59 @@
 <meta charset="UTF-8">
 <title>Biy daalt</title>
 <style>
-body{margin:0;overflow:hidden;font-family:Arial}
+body { margin:0; padding:0; overflow:hidden; font-family: Arial,sans-serif; }
 
-#introScreen{
-  width:100vw;height:100vh;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  background:linear-gradient(#a2dfff,#36e232);
-  font-size:30px;
+#introScreen {
+    width:100vw; height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column;
+    background: linear-gradient(to bottom, #a2dfff, #36e232);
+    font-size:30px; color:#333;
 }
-#startBtn{padding:15px 30px;font-size:20px}
+#startBtn { margin-top:20px; padding:15px 30px; font-size:20px; background:#28a; color:white; border:none; border-radius:8px; cursor:pointer; }
 
-#screen1{
-  display:none;width:100vw;height:100vh;position:relative;
-  background:url('https://i.pinimg.com/1200x/60/8b/03/608b034c42c6cc5a48d5259c2e5a8c9f.jpg') center/cover;
+#screen1 {
+    width:100vw; height:100vh; position:relative; overflow:hidden;
+    background: url('https://i.pinimg.com/1200x/60/8b/03/608b034c42c6cc5a48d5259c2e5a8c9f.jpg') no-repeat center/cover;
+    filter: contrast(110%) saturate(120%) brightness(85%);
+    display:none;
 }
-#butterfly{position:absolute;font-size:50px;left:0;top:50%}
-#flyBtn{position:absolute;top:20px;left:20px}
-#flower1{position:absolute;bottom:100px;right:200px;font-size:50px}
-#nextBtn,#nextBtn2{
-  display:none;position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  padding:15px 30px;font-size:20px
-}
+#butterfly { position:absolute; top:50%; left:0%; font-size:50px; z-index:10; pointer-events:none; }
+#flyBtn { position:absolute; top:20px; left:20px; padding:10px 20px; font-size:18px; cursor:pointer; z-index:20; }
+#flower1 { position:absolute; font-size:50px; bottom:100px; right:200px; }
+#nextBtn { display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+           padding:15px 30px; font-size:20px; background:#28a; color:white; border:none; border-radius:8px; cursor:pointer; z-index:50; }
 
-#screen2{
-  display:none;width:100vw;height:100vh;position:relative;
-  background:linear-gradient(to bottom,#b2ffff 40%,#36e232 40%);
-}
-#pen{
-  position:absolute;right:40px;bottom:40px;
-  width:200px;height:200px;
-  border:8px solid #654321;background:#8B5A2B;
-}
-.sheep{
-  width:60px;height:40px;background:white;
-  border-radius:30px;position:absolute;cursor:pointer;
-}
-.sheep::before{
-  content:'';position:absolute;right:-8px;top:5px;
-  width:25px;height:25px;background:#333;border-radius:50%;
-}
+#screen2 { display:none; width:100vw; height:100vh; position:relative; background: linear-gradient(to bottom, #b2ffff 40%, #36e232 40%); }
+#pen { position:absolute; right:50px; bottom:50px; width:200px; height:200px; border:8px solid #654321; border-radius:10px; background: #8B5A2B; }
+.sheep { width:60px; height:40px; background:white; border-radius:30px; box-shadow:0 4px 8px rgba(0,0,0,0.2); position:absolute; cursor:pointer; }
+.sheep::before { content:''; position:absolute; right:-8px; top:5px; width:25px; height:25px; background:#333; border-radius:50%; }
+.instruction { position:absolute; top:20px; width:100%; text-align:center; font-size:24px; color:#333; pointer-events:none; z-index:20; }
+#nextBtn2 { display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+           padding:15px 30px; font-size:20px; background:#28a; color:white; border:none; border-radius:8px; cursor:pointer; z-index:50; }
 
-#endScreen{
-  display:none;width:100vw;height:100vh;
-  background:url('https://i.pinimg.com/736x/a8/ea/d2/a8ead2ed4714ae47be6ec8c6ce7c5d7f.jpg') center/cover;
+#endScreen {
+    display:none;
+    width:100vw; height:100vh; position:relative;
+    background: url('https://i.pinimg.com/736x/bd/45/28/bd4528f07fd2dbf328f732e92298ac24.jpg') no-repeat center/cover;
+    background-size:cover;
 }
 </style>
 </head>
 <body>
 
 <div id="introScreen">
-  <div>Сайн байна уу? Намайг О.Билгүүн гэдэг. Миний бие даалттай танилцана уу?</div>
-  <button id="startBtn">EHLEH</button>
+    <div>Сайн байна уу? Намайг О. Билгүүн гэдэг. Миний бие даалттай танилцана уу.</div>
+    <button id="startBtn">START</button>
 </div>
 
 <div id="screen1">
   <div id="butterfly">🦋</div>
-  <button id="flyBtn">Niseh</button>
+  <button id="flyBtn">niseh</button>
   <div id="flower1">🌸</div>
   <button id="nextBtn">NEXT</button>
 </div>
 
 <div id="screen2">
+  <div class="instruction">Honiig hashaa ruu oruulna uu!</div>
   <div id="pen"></div>
   <button id="nextBtn2">NEXT</button>
 </div>
@@ -74,91 +64,169 @@ body{margin:0;overflow:hidden;font-family:Arial}
 <div id="endScreen"></div>
 
 <script>
-const intro=document.getElementById("introScreen");
-const screen1=document.getElementById("screen1");
-const screen2=document.getElementById("screen2");
-const endScreen=document.getElementById("endScreen");
+const introScreen = document.getElementById("introScreen");
+const startBtn = document.getElementById("startBtn");
+const screen1 = document.getElementById("screen1");
+const screen2 = document.getElementById("screen2");
+const endScreen = document.getElementById("endScreen");
 
-startBtn.onclick=()=>{intro.style.display="none";screen1.style.display="block";}
+startBtn.addEventListener('click',()=>{
+    introScreen.style.display = "none";
+    screen1.style.display = "block";
+});
 
-flyBtn.onclick=()=>{
- let f=0;
- let id=setInterval(()=>{
-   f++;
-   butterfly.style.left=f+"px";
-   if(f>window.innerWidth-100){
-     clearInterval(id);
-     nextBtn.style.display="block";
-   }
- },5);
+let butterfly = document.getElementById("butterfly");
+let flyBtn = document.getElementById("flyBtn");
+let nextBtn = document.getElementById("nextBtn");
+let flower1 = document.getElementById("flower1");
+let flying = false;
+
+flyBtn.addEventListener("click", ()=> {
+    if(flying) return;
+    flying = true;
+
+    let startX = 0;
+    let startY = window.innerHeight/2;
+    let flowerX = flower1.offsetLeft;
+    let flowerY = flower1.offsetTop;
+
+    let totalFrames = 800;
+    let frame = 0;
+
+    let id = setInterval(()=>{
+        frame++;
+        let t = frame/totalFrames;
+        let posX = startX + (flowerX - startX) * t;
+        let posY = startY + (flowerY - startY) * t + Math.sin(frame*0.1)*10;
+        butterfly.style.left = posX + 'px';
+        butterfly.style.top = posY + 'px';
+        butterfly.style.transform = `rotate(${Math.sin(frame*0.05)*15}deg)`;
+
+        if(frame>=totalFrames){
+            clearInterval(id);
+            nextBtn.style.display="block";
+        }
+    },5);
+});
+
+nextBtn.addEventListener('click', ()=> {
+    screen1.style.display="none";
+    screen2.style.display="block";
+});
+
+const totalSheep = 15;
+let inPenCount = 0;
+const pen = document.getElementById("pen");
+const nextBtn2 = document.getElementById("nextBtn2");
+let sheepList = [];
+
+function isOverlapping(x, y, sheepList){
+    for(let s of sheepList){
+        let sx = parseFloat(s.style.left);
+        let sy = parseFloat(s.style.top);
+        if(Math.abs(sx - x)<70 && Math.abs(sy - y)<50) return true;
+    }
+    return false;
 }
 
-nextBtn.onclick=()=>{
- screen1.style.display="none";
- screen2.style.display="block";
- createSheep();
+for(let i=0;i<totalSheep;i++){
+    const sheep = document.createElement('div');
+    sheep.className='sheep';
+    
+    let x, y;
+    let attempts = 0;
+    do{
+        x = Math.random()*(window.innerWidth-60);
+        y = Math.random()*(window.innerHeight-40);
+        attempts++;
+        if(attempts>100) break;
+    }while(isOverlapping(x,y,sheepList));
+
+    sheep.style.left = x + 'px';
+    sheep.style.top  = y + 'px';
+    document.getElementById("screen2").appendChild(sheep);
+    sheep.dragging=false;
+    sheep.inPen=false;
+    sheepList.push(sheep);
+
+    sheep.addEventListener('mousedown', function(e){
+        if(sheep.inPen) return;
+        sheep.dragging=true;
+        let offsetX = e.clientX - sheep.offsetLeft;
+        let offsetY = e.clientY - sheep.offsetTop;
+
+        function moveHandler(e){
+            sheep.style.left = e.clientX - offsetX + 'px';
+            sheep.style.top = e.clientY - offsetY + 'px';
+        }
+
+        function upHandler(e){
+            sheep.dragging=false;
+            document.removeEventListener('mousemove',moveHandler);
+            document.removeEventListener('mouseup',upHandler);
+            checkAllSheepInPen();
+        }
+
+        document.addEventListener('mousemove',moveHandler);
+        document.addEventListener('mouseup',upHandler);
+    });
 }
 
-const totalSheep=15;
-let sheepList=[];
-const pen=document.getElementById("pen");
-const nextBtn2=document.getElementById("nextBtn2");
+function checkAllSheepInPen(){
+    inPenCount = 0;
+    sheepList.forEach(sheep=>{
+        if(!sheep.inPen){
+            const penRect = pen.getBoundingClientRect();
+            const sheepRect = sheep.getBoundingClientRect();
+            if(sheepRect.left>penRect.left && sheepRect.right<penRect.right &&
+               sheepRect.top>penRect.top && sheepRect.bottom<penRect.bottom){
+                sheep.inPen=true;
+                inPenCount++;
+                sheep.style.left = (penRect.left + Math.random()*(penRect.width-60))+'px';
+                sheep.style.top = (penRect.top + Math.random()*(penRect.height-40))+'px';
+            }
+        } else {
+            inPenCount++;
+        }
+    });
 
-function createSheep(){
- sheepList=[];
- for(let i=0;i<totalSheep;i++){
-   let s=document.createElement("div");
-   s.className="sheep";
-
-   let x=Math.random()*(window.innerWidth-300);
-   let y=window.innerHeight*0.45+Math.random()*(window.innerHeight*0.45);
-
-   s.style.left=x+"px";
-   s.style.top=y+"px";
-
-   s.dragging=false;
-   s.inPen=false;
-   screen2.appendChild(s);
-   sheepList.push(s);
-
-   s.onmousedown=e=>{
-     if(s.inPen)return;
-     s.dragging=true;
-     let ox=e.offsetX,oy=e.offsetY;
-
-     document.onmousemove=ev=>{
-       s.style.left=ev.clientX-ox+"px";
-       s.style.top=ev.clientY-oy+"px";
-     }
-     document.onmouseup=()=>{
-       document.onmousemove=null;
-       s.dragging=false;
-       checkSheep();
-     }
-   }
- }
+    if(inPenCount >= totalSheep){
+        nextBtn2.style.display='block';
+    }
 }
 
-function checkSheep(){
- let count=0;
- sheepList.forEach(s=>{
-   let sr=s.getBoundingClientRect();
-   let pr=pen.getBoundingClientRect();
-   if(!s.inPen &&
-      sr.left>pr.left && sr.right<pr.right &&
-      sr.top>pr.top && sr.bottom<pr.bottom){
-        s.inPen=true;
-        count++;
-   }
-   if(s.inPen)count++;
- });
- if(count>=totalSheep)nextBtn2.style.display="block";
-}
+document.addEventListener('mousemove', function(e){
+    sheepList.forEach(sheep=>{
+        if(sheep.inPen || sheep.dragging) return;
 
-nextBtn2.onclick=()=>{
- screen2.style.display="none";
- endScreen.style.display="block";
-}
+        const rect = sheep.getBoundingClientRect();
+        const dx = rect.left + rect.width/2 - e.clientX;
+        const dy = rect.top + rect.height/2 - e.clientY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 120){
+            const speed = 2 + (120 - dist)/15;
+            let newX = rect.left + (dx/dist)*speed;
+            let newY = rect.top + (dy/dist)*speed;
+
+            if(newX<0) newX=0;
+            if(newX>window.innerWidth - rect.width) newX=window.innerWidth - rect.width;
+            if(newY<0) newY=0;
+            if(newY>window.innerHeight - rect.height) newY=window.innerHeight - rect.height;
+
+            sheep.style.left = newX+'px';
+            sheep.style.top = newY+'px';
+        }
+    });
+
+    checkAllSheepInPen();
+});
+
+nextBtn2.addEventListener('click', ()=>{
+    screen2.style.display='none';
+    endScreen.style.display='block';
+});
 </script>
+
 </body>
 </html>
